@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+#TABLE 17, DOC2VEC 4
+
 # In[ ]:
 
 
