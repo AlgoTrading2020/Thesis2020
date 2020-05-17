@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+#CODE FOR RUNNING TFIDF_CHAR_LIBLINEAR (TABLE 16, BATCH 1)
+
 # In[32]:
 
 
