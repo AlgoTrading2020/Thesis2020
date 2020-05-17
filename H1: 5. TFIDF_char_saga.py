@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+#CODE FOR RUNNING TFIDF_CHAR_SAGA (TABLE 16, BATCH 4)
+
 # In[2]:
 
 
