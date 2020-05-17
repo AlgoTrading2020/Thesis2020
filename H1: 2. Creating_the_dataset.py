@@ -128,7 +128,6 @@ def add_ric(doc_meta_ric, ric):
 
 def add_stock_prices(doc_meta_ric_stocks, stocks):
     #Append stock prices to doc_meta_ric; dates + prices before and after document disclosure. Takes about 4 min
-
     time_series = pd.Index(stocks['Timestamp'])
     time_series = time_series.dropna()
 
@@ -180,9 +179,7 @@ def add_stock_prices(doc_meta_ric_stocks, stocks):
 
 
 def add_market_data(dataset, market_index):
-
     #Append market data to the dataset - OMX GI value for before and after dates
-
     time_series = pd.Index(market_index.Date)
     time_series = time_series.dropna()
 
@@ -201,12 +198,13 @@ def add_market_data(dataset, market_index):
 
 
 def price_movement(dataset):
+    #Returns calculation
     price_mov = (dataset['after_price']/dataset['before_price'])-1
     dataset['PM'] = price_mov
     return dataset
 
 def price_movement_index_adjusted(dataset):
-    #Price movement equals stock movement adjusted for market index movement
+    #Market Adjusted Returns calculation. Equals stock movement adjusted for market index movement
     price_mov = (dataset['after_price']/dataset['before_price'])
     index_mov = (dataset['index_after']/dataset['index_before'])
     dataset['PM_index_adjusted'] = price_mov-index_mov
@@ -263,18 +261,21 @@ def jensens_alpha(dataset, stocks, market_index, risk_free_rate_data):
 
 
 def PM_label_dataset(dataset, threshold):
+    #Label based on Returns
     dataset.loc[dataset['PM']>threshold, 'PM_label'] = 'Up'
     dataset.loc[dataset['PM']<-threshold, 'PM_label'] = 'Down'
     dataset.loc[(dataset['PM']<=threshold) & (dataset['PM']>=-threshold), 'PM_label'] = 'Stable'
     return dataset
 
 def PM_index_adjusted_label_dataset(dataset, threshold):
+    #Label based on Market Adjusted Returns
     dataset.loc[dataset['PM_index_adjusted']>threshold, 'PM_index_adjusted_label'] = 'Up'
     dataset.loc[dataset['PM_index_adjusted']<-threshold, 'PM_index_adjusted_label'] = 'Down'
     dataset.loc[(dataset['PM_index_adjusted']<=threshold) & (dataset['PM_index_adjusted']>=-threshold), 'PM_index_adjusted_label'] = 'Stable'
     return dataset
 
 def PM_alpha_label_dataset(dataset, threshold):
+    #Label based on Jensen's Alpha
     dataset.loc[dataset['alpha']>threshold, 'alpha_label'] = 'Up'
     dataset.loc[dataset['alpha']<-threshold, 'alpha_label'] = 'Down'
     dataset.loc[(dataset['alpha']<=threshold) & (dataset['alpha']>=-threshold), 'alpha_label'] = 'Stable'
@@ -322,7 +323,7 @@ dataset = price_movement(dataset)
 dataset = price_movement_index_adjusted(dataset)
 dataset = jensens_alpha(dataset, stocks, market_index, risk_free_rate_data)
 
-Label dataset
+#Label dataset
 #------------
 def export(dataset):
     for threshold in np.arange(0.005, 0.05, 0.005):
