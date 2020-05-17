@@ -251,10 +251,7 @@ def jensens_alpha(dataset, stocks, market_index, risk_free_rate_data):
         alpha = daily_return-expected_return
         
         if str(alpha) == 'nan':
-            #dataset.loc[row, 'alpha'] = alpha
             dataset.loc[row, 'alpha'] = dataset.loc[row, 'PM_index_adjusted']
-            count+=1
-            print(count)
         else:
             dataset.loc[row, 'beta'] = beta
             dataset.loc[row, 'rfr'] = risk_free_rate
