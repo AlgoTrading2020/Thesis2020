@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+#TABLE 17, WORD2VEC
+
 # In[1]:
 
 
